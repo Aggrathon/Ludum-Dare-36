@@ -769,6 +769,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   car: {fileID: 114000012258340838}
+  controller: 0
 --- !u!114 &114000012258340838
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -795,7 +796,7 @@ MonoBehaviour:
   reverseTorque: 1500
   brakeTorque: 2000
   driveType: 2
-  boostMultiplier: 1.2
+  boostMultiplier: 1.5
 --- !u!146 &146000010125578854
 WheelCollider:
   m_ObjectHideFlags: 1
