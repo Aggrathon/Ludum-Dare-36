@@ -1,6 +1,8 @@
 ﻿using System;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using System.Linq;
+using UnityEngine.UI;
 
 namespace aggrathon.ld36
 {
@@ -13,6 +15,9 @@ namespace aggrathon.ld36
 		public GameObject aiPrefab;
 
 		public Transform[] spawnLocations;
+
+		public GameObject outroScreen;
+		public Text victoryText;
 
 		[NonSerialized] public CarController[] cars;
 
@@ -37,13 +42,25 @@ namespace aggrathon.ld36
 					go.AddComponent<PlayerController>().Setup(cars[i], cam, PlayerData.Players[i].controller);
 				}
 			}
+			for (int i = 0; i < cars.Length; i++)
+			{
+				cars[i].onDestroyed += (car) =>
+				{
+					cars = (from c in cars where c != car select c).ToArray();
+					if(cars.Length == 1)
+					{
+						victoryText.text = string.Format(victoryText.text, cars[0].transform.parent.gameObject.name);
+						outroScreen.SetActive(true);
+					}
+				};
+			}
 		}
 
 		void Update()
 		{
 			if(Input.GetButton("Cancel"))
 			{
-				SceneManager.LoadScene(0);
+				MainMenu();
 			}
 		}
 
@@ -61,6 +78,16 @@ namespace aggrathon.ld36
 			{
 				cars[i].rigidbody.isKinematic = false;
 			}
+		}
+
+		public void Restart()
+		{
+			SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+		}
+
+		public void MainMenu()
+		{
+			SceneManager.LoadScene(0);
 		}
 	}
 }

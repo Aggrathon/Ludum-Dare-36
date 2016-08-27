@@ -892,6 +892,10 @@ MonoBehaviour:
   brakeTorque: 2500
   driveType: 2
   boostMultiplier: 1.5
+  health: 100
+  baseArmor: 10
+  frontArmor: 25
+  sideArmor: 10
 --- !u!146 &146000010125578854
 WheelCollider:
   m_ObjectHideFlags: 1

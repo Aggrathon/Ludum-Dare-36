@@ -14,9 +14,14 @@ namespace aggrathon.ld36
 		[Header("UI")]
 		public Text playerName;
 		public Text speedText;
+		public Text healthText;
+
+		float healthCache;
+		CarController car;
 
 		public void Setup(PlayerController player)
 		{
+			car = player.car;
 			target = player.car.rigidbody;
 			playerName.text = player.name;
 			switch (player.controller)
@@ -37,6 +42,11 @@ namespace aggrathon.ld36
 		void Update()
 		{
 			speedText.text = string.Format("Speed: {0: 0}", target.velocity.magnitude * 3.6f);
+			if(car.Health != healthCache)
+			{
+				healthCache = car.Health;
+				healthText.text = string.Format("Health: {0: 0}", healthCache);
+			}
 		}
 
 		void FixedUpdate()

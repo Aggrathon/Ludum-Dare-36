@@ -27,6 +27,11 @@ namespace aggrathon.ld36
 		public void Setup(CarController car)
 		{
 			this.car = car;
+			car.onDestroyed += (c) =>
+			{
+				this.enabled = false;
+				this.target = null;
+			};
 		}
 
 		void Update()
@@ -43,7 +48,7 @@ namespace aggrathon.ld36
 				{
 					target = null;
 					FindTarget();
-					len = Vector3.Distance(car.transform.position, target.transform.position);
+					return;
 				}
 
 				len += Vector3.Angle(car.transform.forward, target.transform.position - car.transform.position) * rotationCost;
@@ -51,7 +56,7 @@ namespace aggrathon.ld36
 				{
 					target = null;
 					FindTarget();
-					len += Vector3.Angle(car.transform.forward, target.transform.position - car.transform.position) * rotationCost;
+					return;
 				}
 
 				Vector3 pos = target.transform.position + target.rigidbody.velocity * (len * targetPrediction);
@@ -89,6 +94,14 @@ namespace aggrathon.ld36
 					}
 					stuckTime += Time.deltaTime;
 					car.accelerator = -1f;
+					if (Mathf.Atan2(pos.x, pos.z) < 0f)
+					{
+						car.steering += 2*Time.deltaTime;
+					}
+					else
+					{
+						car.steering -= 2*Time.deltaTime;
+					}
 					return;
 				}
 				//Check if stuck
