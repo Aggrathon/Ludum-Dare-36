@@ -30,11 +30,11 @@ namespace aggrathon.ld36
 		[NonSerialized] public float steering = 0f;
 		[NonSerialized] public bool handbrake = false;
 		[NonSerialized] public bool boosting = false;
+		[NonSerialized]new public Rigidbody rigidbody;
 
 		private float currentTorque;
-		new private Rigidbody rigidbody;
 
-		void Start ()
+		void Awake ()
 		{
 			rigidbody = GetComponent<Rigidbody>();
 		}

@@ -17,7 +17,7 @@ namespace aggrathon.ld36
 
 		public void Setup(PlayerController player)
 		{
-			target = player.car.GetComponent<Rigidbody>();
+			target = player.car.rigidbody;
 			playerName.text = player.name;
 			switch (player.controller)
 			{
