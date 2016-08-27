@@ -28,6 +28,7 @@ namespace aggrathon.ld36
 
 		[NonSerialized] public float accelerator = 0f;
 		[NonSerialized] public float steering = 0f;
+		[NonSerialized] public bool handbrake = false;
 		[NonSerialized] public bool boosting = false;
 
 		private float currentTorque;
@@ -114,6 +115,14 @@ namespace aggrathon.ld36
 						wheelColliders[2].motorTorque =
 						wheelColliders[3].motorTorque = currentTorque * accelerator * 0.25f;
 					break;
+			}
+
+			if(handbrake)
+			{
+				wheelColliders[0].brakeTorque =
+					wheelColliders[1].brakeTorque =
+					wheelColliders[2].brakeTorque =
+					wheelColliders[3].brakeTorque = brakeTorque;
 			}
 		}
 

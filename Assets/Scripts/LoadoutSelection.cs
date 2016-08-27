@@ -1,4 +1,4 @@
-﻿using System;
+﻿using UnityEngine.SceneManagement;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -9,9 +9,17 @@ namespace aggrathon.ld36
 	{
 		public Transform playerHolder;
 
+		void Update()
+		{
+			if(Input.GetButtonDown("Cancel"))
+			{
+				gameObject.SetActive(false);
+			}
+		}
+
 		public void Play()
 		{
-
+			SceneManager.LoadScene(1);
 		}
 
 		public void SetHumans(int count)
@@ -19,8 +27,10 @@ namespace aggrathon.ld36
 			count++;
 			while (playerHolder.childCount < count)
 				Instantiate(playerHolder.GetChild(1), playerHolder);
-			while (playerHolder.childCount > count)
-				Destroy(playerHolder.GetChild(playerHolder.childCount - 1).gameObject);
+			for (int i = playerHolder.childCount-1; i >= count; i--)
+			{
+				Destroy(playerHolder.GetChild(i).gameObject);
+			}
 
 			for (int i = 1; i < count; i++)
 			{
