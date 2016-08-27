@@ -1,5 +1,6 @@
 ﻿using System;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 namespace aggrathon.ld36
 {
@@ -35,6 +36,14 @@ namespace aggrathon.ld36
 					CameraController cam = (Instantiate(cameraPrefab, spawnLocations[i].position, spawnLocations[i].rotation, go.transform) as GameObject).GetComponent<CameraController>();
 					go.AddComponent<PlayerController>().Setup(cars[i], cam, PlayerData.Players[i].controller);
 				}
+			}
+		}
+
+		void Update()
+		{
+			if(Input.GetButton("Cancel"))
+			{
+				SceneManager.LoadScene(0);
 			}
 		}
 

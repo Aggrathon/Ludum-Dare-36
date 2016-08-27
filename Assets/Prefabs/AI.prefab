@@ -51,12 +51,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c2077fa47ad995e4da05f8d60d13f5cc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  rotationCost: 0.2777778
-  trackingRadius: 100
-  closeRadius: 4
-  randomTarget: 0
+  rotationCost: 0.4
+  trackingRadius: 120
+  closeRadius: 10
+  randomTarget: 10
   reactionSpeed: 4
-  accelerationAngle: 30
-  stuckSpeed: 0.5
+  accelerationAngle: 60
+  stuckSpeed: 1
   stuckTimer: 2
-  targetPrediction: 0.2
+  targetPrediction: 0.02

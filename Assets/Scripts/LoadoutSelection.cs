@@ -1,13 +1,34 @@
 ﻿using UnityEngine.SceneManagement;
 using UnityEngine;
 using UnityEngine.UI;
-
+using System.Collections.Generic;
+#if UNITY_EDITOR
+using UnityEditor;
+#endif
 
 namespace aggrathon.ld36
 {
 	public class LoadoutSelection : MonoBehaviour
 	{
 		public Transform playerHolder;
+		public Dropdown mapSelect;
+
+#if UNITY_EDITOR
+		[ContextMenu("Update Maps in Dropdown")]
+		void UpdateScenes()
+		{
+			
+			List<Dropdown.OptionData> list = new List<Dropdown.OptionData>();
+			for (int i = 1; i < EditorBuildSettings.scenes.Length; i++)
+			{
+				string p = EditorBuildSettings.scenes[i].path;
+				p = p.Substring(p.LastIndexOf('/')+1);
+				p = p.Substring(0, p.LastIndexOf('.'));
+				list.Add(new Dropdown.OptionData(p));
+			}
+			mapSelect.options = list;
+		}
+#endif
 
 		void Update()
 		{
@@ -33,7 +54,7 @@ namespace aggrathon.ld36
 				PlayerData.Players[1].controller = PlayerData.Controller.player2;
 			}
 
-			SceneManager.LoadScene(1);
+			SceneManager.LoadScene(mapSelect.value+1);
 		}
 
 		public void SetHumans(int count)
