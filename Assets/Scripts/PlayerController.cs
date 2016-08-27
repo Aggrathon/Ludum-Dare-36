@@ -5,15 +5,40 @@ namespace aggrathon.ld36
 {
 	public class PlayerController : MonoBehaviour
 	{
-		enum InputType
+		public enum InputType
 		{
 			Both,
 			Keyboard,
 			Controller
 		}
 
-		[SerializeField] private aggrathon.ld36.CarController car;
-		[SerializeField] private InputType controller;
+		public CarController car;
+		new public CameraController camera;
+		public InputType controller;
+
+		public void Setup(CarController car, CameraController camera, InputType input)
+		{
+			this.car = car;
+			this.controller = input;
+			this.camera = camera;
+			camera.Setup(this);
+		}
+
+		public void Setup(CarController car, CameraController camera, PlayerData.Controller input)
+		{
+			switch (input)
+			{
+				case PlayerData.Controller.player1:
+					Setup(car, camera, InputType.Keyboard);
+					break;
+				case PlayerData.Controller.player2:
+					Setup(car, camera, InputType.Controller);
+					break;
+				default:
+					Setup(car, camera, InputType.Both);
+					break;
+			}
+		}
 
 		void Update()
 		{
