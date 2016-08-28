@@ -35,6 +35,12 @@ namespace aggrathon.ld36
 					cars[i] = (Instantiate(carPrefab, spawnLocations[i].position, spawnLocations[i].rotation, go.transform) as GameObject).GetComponent<CarController>();
 					go.GetComponent<AiController>().Setup(cars[i]);
 				}
+				else if(PlayerData.Players[i].controller == PlayerData.Controller.dummy)
+				{
+					GameObject go = new GameObject(PlayerData.Players[i].name);
+					cars[i] = (Instantiate(carPrefab, spawnLocations[i].position, spawnLocations[i].rotation, go.transform) as GameObject).GetComponent<CarController>();
+					cars[i].Health = 0.01f;
+				}
 				else
 				{
 					GameObject go = new GameObject(PlayerData.Players[i].name);

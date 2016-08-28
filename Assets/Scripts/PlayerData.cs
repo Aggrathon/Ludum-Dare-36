@@ -33,7 +33,8 @@ namespace aggrathon.ld36
 			ai,
 			player,
 			player1,
-			player2
+			player2,
+			dummy
 		}
 
 		public string name;
@@ -48,6 +49,14 @@ namespace aggrathon.ld36
 			this.upgrades = upgrades;
 			color = UnityEngine.Random.ColorHSV();
 			color.a = 1f;
+		}
+
+		public PlayerData(string name, Controller cont, Color color, params Upgrades.Upgrade[] upgrades)
+		{
+			this.name = name;
+			this.controller = cont;
+			this.upgrades = upgrades;
+			this.color = color;
 		}
 
 		public PlayerData(string name, Controller cont, Color color, int[] upgrades)

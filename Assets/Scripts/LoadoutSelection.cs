@@ -20,7 +20,7 @@ namespace aggrathon.ld36
 		void UpdateScenes()
 		{
 			List<Dropdown.OptionData> list = new List<Dropdown.OptionData>();
-			for (int i = 1; i < EditorBuildSettings.scenes.Length; i++)
+			for (int i = 2; i < EditorBuildSettings.scenes.Length; i++)
 			{
 				string p = EditorBuildSettings.scenes[i].path;
 				p = p.Substring(p.LastIndexOf('/')+1);
@@ -69,7 +69,7 @@ namespace aggrathon.ld36
 				PlayerData.Players[1].controller = PlayerData.Controller.player2;
 			}
 
-			SceneManager.LoadScene(mapSelect.value+1);
+			SceneManager.LoadScene(mapSelect.value+2);
 		}
 
 		public void SetHumans(int count)

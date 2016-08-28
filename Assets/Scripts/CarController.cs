@@ -72,8 +72,7 @@ namespace aggrathon.ld36
 		public Action<CarController> onDestroyed;
 
 		private float currentTorque;
-		Rigidbody lastCollider;
-		float lastCollision;
+		private Vector3 oldVelocity;
 
 		public float Health
 		{
@@ -112,6 +111,8 @@ namespace aggrathon.ld36
 
 		void FixedUpdate()
 		{
+			oldVelocity = rigidbody.velocity;
+
 			if(rigidbody.velocity.sqrMagnitude < 0.05f && !wheelColliders[0].isGrounded && wheelColliders[1].isGrounded && wheelColliders[2].isGrounded && wheelColliders[3].isGrounded && Vector3.Angle(transform.up, new Vector3(0,1,0)) > 80f)
 			{
 				Health = 0f;
@@ -218,49 +219,36 @@ namespace aggrathon.ld36
 		{
 			float damage = 0f;
 			Rigidbody othrig = collision.rigidbody;
+			Vector3 velocity = collision.relativeVelocity + oldVelocity;
 			if(othrig == null)
 			{
-				//for (int i = 0; i < collision.contacts.Length; i++)
-				//{
-				//	damage += Vector3.Project(rigidbody.velocity, collision.contacts[i].normal).magnitude;
-				//}
-				//damage = damage / (float)collision.contacts.Length * damageMultiplier * 0.5f;
+				damage = Vector3.Project(collision.relativeVelocity, transform.position - collision.contacts[0].point).magnitude * damageMultiplier* 0.25f;
 			}
 			else if(othrig != rigidbody)
 			{
-				if (Time.time - lastCollision < 0.5f && othrig == lastCollider)
-				{
-					//Debug.Log("Rehit");
+				if (Vector3.Angle(velocity, transform.position - othrig.position) > 75f)
 					return;
-				}
-
-				if (Vector3.Angle(othrig.velocity, transform.position - othrig.position) > 80f)
-					return;
-				damage = Vector3.Project(othrig.velocity, transform.position - othrig.position).magnitude * damageMultiplier * (othrig.mass / rigidbody.mass);
-
-				if(Vector3.Angle(transform.forward, othrig.position - transform.position) < 45f)
-				{
-					damage -= frontArmor;
-				}
-				else if(Vector3.Angle(transform.right, othrig.position-transform.position) < 45f || Vector3.Angle(transform.right, othrig.position - transform.position) > 135f)
-				{
-					damage -= sideArmor;
-				}
-				else
-				{
-					damage -= baseArmor;
-				}
-
-				if (damage > 0f)
-				{
-					lastCollision = Time.time;
-					lastCollider = othrig;
-					//Debug.Log(damage);
-					Health -= damage;
-				}
-				return;
+				damage = Vector3.Project(velocity, transform.position - othrig.position).magnitude * damageMultiplier * (othrig.mass / rigidbody.mass);
 			}
-			return;
+
+			if (Vector3.Angle(transform.forward, collision.contacts[0].point - transform.position) < 45f)
+			{
+				damage -= frontArmor;
+			}
+			else if (Vector3.Angle(transform.right, collision.contacts[0].point - transform.position) < 45f || Vector3.Angle(transform.right, collision.contacts[0].point - transform.position) > 135f)
+			{
+				damage -= sideArmor;
+			}
+			else
+			{
+				damage -= baseArmor;
+			}
+
+			if (damage > 0f)
+			{
+				//Debug.Log(damage);
+				Health -= damage;
+			}
 		}
 	}
 }
