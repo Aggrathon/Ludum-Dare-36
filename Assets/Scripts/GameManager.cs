@@ -18,6 +18,7 @@ namespace aggrathon.ld36
 
 		public GameObject outroScreen;
 		public Text victoryText;
+		[SerializeField] Text leftText;
 
 		[NonSerialized] public CarController[] cars;
 
@@ -41,19 +42,23 @@ namespace aggrathon.ld36
 					CameraController cam = (Instantiate(cameraPrefab, spawnLocations[i].position, spawnLocations[i].rotation, go.transform) as GameObject).GetComponent<CameraController>();
 					go.AddComponent<PlayerController>().Setup(cars[i], cam, PlayerData.Players[i].controller);
 				}
-			}
-			for (int i = 0; i < cars.Length; i++)
-			{
+				cars[i].GetComponent<CarAudioVisual>().SetColor(PlayerData.Players[i].color);
+				for (int j = 0; j < PlayerData.Players[i].upgrades.Length; j++)
+				{
+					Upgrades.EnableUpgrade(PlayerData.Players[i].upgrades[j], cars[i]);
+				}
 				cars[i].onDestroyed += (car) =>
 				{
 					cars = (from c in cars where c != car select c).ToArray();
-					if(cars.Length == 1)
+					leftText.text = string.Format("Steam Engines Left: {0}", cars.Length);
+					if (cars.Length == 1)
 					{
 						victoryText.text = string.Format(victoryText.text, cars[0].transform.parent.gameObject.name);
 						outroScreen.SetActive(true);
 					}
 				};
 			}
+			leftText.text = string.Format("Steam Engines Left: {0}", cars.Length);
 		}
 
 		void Update()

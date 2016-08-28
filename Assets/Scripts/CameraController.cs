@@ -12,15 +12,20 @@ namespace aggrathon.ld36
 		public float followRotateSpeed = 30f;
 
 		[Header("UI")]
+		public Text boostText;
 		public Text playerName;
 		public Text speedText;
 		public Text healthText;
+		public GameObject destroyedText;
 
 		float healthCache;
 		CarController car;
+		Animator anim;
+		int boostAnim = Animator.StringToHash("boosting");
 
 		public void Setup(PlayerController player)
 		{
+			anim = GetComponent<Animator>();
 			car = player.car;
 			target = player.car.rigidbody;
 			playerName.text = player.name;
@@ -41,12 +46,18 @@ namespace aggrathon.ld36
 
 		void Update()
 		{
+			boostText.text = string.Format("Boost:  {0: 0} %", car.boostMeter);
 			speedText.text = string.Format("Speed: {0: 0}", target.velocity.magnitude * 3.6f);
 			if(car.Health != healthCache)
 			{
 				healthCache = car.Health;
 				healthText.text = string.Format("Health: {0: 0}", healthCache);
+				if(healthCache <= 0f)
+				{
+					destroyedText.SetActive(true);
+				}
 			}
+			anim.SetBool(boostAnim, car.Boosting);
 		}
 
 		void FixedUpdate()

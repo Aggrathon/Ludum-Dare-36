@@ -2029,6 +2029,12 @@ MonoBehaviour:
   frontArmor: 25
   sideArmor: 10
   damageMultiplier: 10
+  upgradeObjects:
+  - {fileID: 1000012395913172}
+  - {fileID: 1000011409240630}
+  - {fileID: 1000010080765526}
+  - {fileID: 1000010773500862}
+  - {fileID: 1000010324538166}
 --- !u!114 &114000012897811368
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -2041,6 +2047,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   smoke: {fileID: 4000013684457526}
+  coloredRenderer: {fileID: 23000013259779908}
   steeringwheel: {fileID: 4000011830758326}
   engineNoise: {fileID: 82000010783129254}
   minRpm: 150

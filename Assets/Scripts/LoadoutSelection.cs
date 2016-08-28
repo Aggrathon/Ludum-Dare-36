@@ -2,6 +2,8 @@
 using UnityEngine;
 using UnityEngine.UI;
 using System.Collections.Generic;
+using System;
+using System.Linq;
 #if UNITY_EDITOR
 using UnityEditor;
 #endif
@@ -17,7 +19,6 @@ namespace aggrathon.ld36
 		[ContextMenu("Update Maps in Dropdown")]
 		void UpdateScenes()
 		{
-			
 			List<Dropdown.OptionData> list = new List<Dropdown.OptionData>();
 			for (int i = 1; i < EditorBuildSettings.scenes.Length; i++)
 			{
@@ -29,6 +30,18 @@ namespace aggrathon.ld36
 			mapSelect.options = list;
 		}
 #endif
+
+		void Awake()
+		{
+			List<Dropdown.OptionData> list = new List<Dropdown.OptionData>();
+			string[] names = Enum.GetNames(typeof(Upgrades.Upgrade));
+			for (int i = 0; i < names.Length; i++)
+			{
+				list.Add(new Dropdown.OptionData(names[i].Replace('_',' ')));
+			}
+			foreach (Dropdown dd in playerHolder.GetChild(1).GetComponentsInChildren<Dropdown>())
+				dd.options = list;
+		}
 
 		void Update()
 		{
@@ -45,7 +58,9 @@ namespace aggrathon.ld36
 			{
 				PlayerData.Players[i] = new PlayerData(
 					playerHolder.GetChild(i + 1).GetComponentInChildren<InputField>().text,
-					playerHolder.GetChild(i + 1).GetComponentInChildren<Toggle>().isOn ? PlayerData.Controller.ai : PlayerData.Controller.player
+					playerHolder.GetChild(i + 1).GetComponentInChildren<Toggle>().isOn ? PlayerData.Controller.ai : PlayerData.Controller.player,
+					playerHolder.GetChild(i + 1).GetComponentInChildren<ColorRandomizer>().color,
+					(from dd in playerHolder.GetChild(i+1).GetComponentsInChildren<Dropdown>() select dd.value).ToArray()
 					);
 			}
 			if(PlayerData.Players.Length > 1 && PlayerData.Players[1].controller == PlayerData.Controller.player)

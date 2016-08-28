@@ -6,6 +6,7 @@ namespace aggrathon.ld36
 	public class CarAudioVisual : MonoBehaviour
 	{
 		[SerializeField] Transform smoke;
+		[SerializeField] MeshRenderer coloredRenderer;
 		[SerializeField] Transform steeringwheel;
 		[SerializeField] AudioSource engineNoise;
 		[SerializeField] float minRpm = 50f;
@@ -24,6 +25,11 @@ namespace aggrathon.ld36
 			}
 		}
 
+		public void SetColor(Color c)
+		{
+			coloredRenderer.materials[1].color = c;
+		}
+
 		public void SetHealth(float oldHealth, float newHealth)
 		{
 			int old = (int)((1f - oldHealth * 0.01f) * (float)smoke.childCount);
@@ -36,7 +42,7 @@ namespace aggrathon.ld36
 			}
 		}
 
-		public void BlackenRenderers()
+		public void Destroy()
 		{
 			foreach (MeshRenderer mr in GetComponentsInChildren<MeshRenderer>())
 				foreach (Material m in mr.materials)
@@ -50,7 +56,7 @@ namespace aggrathon.ld36
 			float rpm = car.RPM;
 			if (rpm < minRpm)
 				rpm = minRpm;
-			if(audioDelay > soundInterval/rpm)
+			if(audioDelay > soundInterval/(rpm * Mathf.Pow(0.95f, (int)(rpm*0.01f))))
 			{
 				engineNoise.pitch = Random.Range(1f-soundPitchChange, 1f+soundPitchChange);
 				engineNoise.PlayOneShot(engineNoise.clip);

@@ -60,9 +60,13 @@ namespace aggrathon.ld36
 				}
 
 				Vector3 pos = target.transform.position + target.rigidbody.velocity * (len * targetPrediction);
-				if (Vector2.Angle(car.transform.forward, pos - car.transform.position) < accelerationAngle)
+				float angle = Vector2.Angle(car.transform.forward, pos - car.transform.position);
+				car.Boosting = false;
+				if (angle < accelerationAngle)
 				{
 					car.accelerator += Time.deltaTime * reactionSpeed;
+					if (angle < accelerationAngle * 0.5f)
+						car.Boosting = true;
 				}
 				else if(stuckTime != 0)
 				{
@@ -126,10 +130,25 @@ namespace aggrathon.ld36
 				if (temp == car || temp == target)
 					continue;
 				float nd = Vector3.Distance(car.transform.position, temp.transform.position) + Vector3.Angle(car.transform.forward, temp.transform.position - car.transform.position) * rotationCost + UnityEngine.Random.Range(0, randomTarget);
-				if (nd < dist)
+				if (nd < dist && nd > closeRadius)
 				{
 					dist = nd;
 					closest = temp;
+				}
+			}
+			if (target == null)
+			{
+				for (int i = 0; i < GameManager.instance.cars.Length; i++)
+				{
+					CarController temp = GameManager.instance.cars[i];
+					if (temp == car)
+						continue;
+					float nd = Vector3.Distance(car.transform.position, temp.transform.position) + Vector3.Angle(car.transform.forward, temp.transform.position - car.transform.position) * rotationCost + UnityEngine.Random.Range(0, randomTarget);
+					if (nd < dist)
+					{
+						dist = nd;
+						closest = temp;
+					}
 				}
 			}
 			target = closest;

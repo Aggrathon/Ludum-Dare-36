@@ -1,4 +1,5 @@
 ﻿using System;
+using UnityEngine;
 
 namespace aggrathon.ld36
 {
@@ -37,13 +38,31 @@ namespace aggrathon.ld36
 
 		public string name;
 		public Controller controller;
-		public int[] upgrades;
+		public Upgrades.Upgrade[] upgrades;
+		public Color color;
 
-		public PlayerData(string name, Controller cont, params int[] upgrades)
+		public PlayerData(string name, Controller cont, params Upgrades.Upgrade[] upgrades)
 		{
 			this.name = name;
 			this.controller = cont;
 			this.upgrades = upgrades;
+			color = UnityEngine.Random.ColorHSV();
+			color.a = 1f;
+		}
+
+		public PlayerData(string name, Controller cont, Color color, int[] upgrades)
+		{
+			this.name = name;
+			this.controller = cont;
+			this.color = color;
+			this.upgrades = new Upgrades.Upgrade[upgrades.Length];
+			for (int i = 0; i < upgrades.Length; i++)
+			{
+				if(Enum.IsDefined(typeof(Upgrades.Upgrade), upgrades[i]))
+					this.upgrades[i] = (Upgrades.Upgrade)upgrades[i];
+				else
+					this.upgrades[i] = Upgrades.Upgrade.None;
+			}
 		}
 
 		public PlayerData() { }

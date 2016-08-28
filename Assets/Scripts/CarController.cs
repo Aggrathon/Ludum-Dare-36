@@ -26,25 +26,27 @@ namespace aggrathon.ld36
 		[SerializeField]
 		private float maximumSteerAngle = 20f;
 		[SerializeField]
-		private float maximumTorque = 2500f;
+		public float maximumTorque = 2500f;
 		[SerializeField]
-		private float reverseTorque = 1500f;
+		public float reverseTorque = 1500f;
 		[SerializeField]
 		private float brakeTorque = 2000f;
 		[SerializeField]
 		private WheelDrive driveType = WheelDrive.RearWheelDrive;
 		[SerializeField]
 		[Range(1, 2)]
-		private float boostMultiplier = 1.2f;
+		public float boostMultiplier = 1.2f;
+		public float boostDrain = 8f;
 
 		[Header("Health")]
 		[SerializeField] private float health = 100f;
 		[SerializeField] private float baseArmor = 10f;
-		[SerializeField] private float frontArmor = 25f;
-		[SerializeField] private float sideArmor = 10f;
+		[SerializeField] public float frontArmor = 25f;
+		[SerializeField] public float sideArmor = 10f;
 		[SerializeField] private float damageMultiplier = 10f;
 
 		CarAudioVisual visuals;
+		public GameObject[] upgradeObjects;
 
 		[NonSerialized]
 		public float accelerator = 0f;
@@ -52,8 +54,18 @@ namespace aggrathon.ld36
 		public float steering = 0f;
 		[NonSerialized]
 		public bool handbrake = false;
-		[NonSerialized]
-		public bool boosting = false;
+		private bool boosting = false;
+		[NonSerialized] public float boostMeter = 40f;
+		public bool Boosting {
+			get { return boosting; }
+			set
+			{
+				if (value && boostMeter > 1f)
+					boosting = true;
+				else
+					boosting = false;
+			}
+		}
 		[NonSerialized]
 		new public Rigidbody rigidbody;
 		[NonSerialized]
@@ -92,16 +104,27 @@ namespace aggrathon.ld36
 					wheelColliders[2].brakeTorque =
 					wheelColliders[3].brakeTorque = brakeTorque * 0.5f;
 				car.enabled = false;
-				visuals.BlackenRenderers();
+				visuals.Destroy();
 			};
 		}
 
 		void FixedUpdate()
 		{
-			if(rigidbody.velocity.sqrMagnitude < float.Epsilon && !wheelColliders[0].isGrounded && wheelColliders[1].isGrounded && wheelColliders[2].isGrounded && wheelColliders[3].isGrounded)
+			if(rigidbody.velocity.sqrMagnitude < 0.5f && !wheelColliders[0].isGrounded && wheelColliders[1].isGrounded && wheelColliders[2].isGrounded && wheelColliders[3].isGrounded)
 			{
 				Health = 0f;
 				return;
+			}
+			if(boosting)
+			{
+				boostMeter -= boostDrain * Time.deltaTime;
+				if (boostMeter <= 0f)
+					boosting = false;
+			}
+			else
+			{
+				if(boostMeter < 100f)
+					boostMeter += Time.deltaTime;
 			}
 
 			for (int i = 0; i < 4; i++)
@@ -132,7 +155,7 @@ namespace aggrathon.ld36
 				}
 				else
 				{
-					currentTorque = boosting ? maximumTorque * boostMultiplier : maximumTorque;
+					currentTorque = Boosting ? maximumTorque * boostMultiplier : maximumTorque;
 					wheelColliders[0].brakeTorque =
 						wheelColliders[1].brakeTorque =
 						wheelColliders[2].brakeTorque =
