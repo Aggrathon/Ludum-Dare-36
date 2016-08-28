@@ -9,6 +9,8 @@ namespace aggrathon.ld36
 		[SerializeField] Transform smoke;
 		[SerializeField] MeshRenderer coloredRenderer;
 		[SerializeField] Transform steeringwheel;
+		[SerializeField] GameObject explosion;
+		[Header("Audio")]
 		[SerializeField] AudioSource engineNoise;
 		[SerializeField] float minRpm = 50f;
 		[SerializeField] float soundInterval = 0.1f;
@@ -86,6 +88,7 @@ namespace aggrathon.ld36
 					m.color = 0.4f * m.color + Color.black;
 			enabled = false;
 			nameText.gameObject.SetActive(false);
+			explosion.SetActive(true);
 		}
 
 		void Update()
@@ -94,7 +97,7 @@ namespace aggrathon.ld36
 			float rpm = car.RPM;
 			if (rpm < minRpm)
 				rpm = minRpm;
-			if(audioDelay > soundInterval/(rpm * Mathf.Pow(0.93f, (int)(rpm*0.01f))))
+			if(audioDelay > soundInterval/(rpm * Mathf.Pow(0.95f, (int)(rpm*0.01f))))
 			{
 				engineNoise.pitch = Random.Range(1f-soundPitchChange, 1f+soundPitchChange);
 				engineNoise.PlayOneShot(engineNoise.clip);

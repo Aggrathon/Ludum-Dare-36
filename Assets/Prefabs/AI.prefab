@@ -55,7 +55,7 @@ MonoBehaviour:
   trackingRadius: 120
   closeRadius: 12
   randomTarget: 12
-  reactionSpeed: 4
+  reactionSpeed: 2
   accelerationAngle: 60
   stuckSpeed: 1
   stuckTimer: 2

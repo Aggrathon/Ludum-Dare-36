@@ -98,14 +98,6 @@ namespace aggrathon.ld36
 					}
 					stuckTime += Time.deltaTime;
 					car.accelerator = -1f;
-					if (Mathf.Atan2(pos.x, pos.z) < 0f)
-					{
-						car.steering += 2*Time.deltaTime;
-					}
-					else
-					{
-						car.steering -= 2*Time.deltaTime;
-					}
 					return;
 				}
 				//Check if stuck
