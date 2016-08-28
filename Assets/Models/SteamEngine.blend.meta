@@ -16,6 +16,7 @@ ModelImporter:
     100016: PloughCollider
     100018: PloughDetailed
     100020: Side_Armor
+    100022: Cannon
     400000: Base
     400002: Cabin
     400004: Engine
@@ -27,6 +28,7 @@ ModelImporter:
     400016: PloughCollider
     400018: PloughDetailed
     400020: Side_Armor
+    400022: Cannon
     2300000: Base
     2300002: Cabin
     2300004: Engine
@@ -37,6 +39,7 @@ ModelImporter:
     2300014: PloughCollider
     2300016: PloughDetailed
     2300018: Side_Armor
+    2300020: Cannon
     3300000: Base
     3300002: Cabin
     3300004: Engine
@@ -47,6 +50,7 @@ ModelImporter:
     3300014: PloughCollider
     3300016: PloughDetailed
     3300018: Side_Armor
+    3300020: Cannon
     4300000: Cabin
     4300002: Engine
     4300004: Base
@@ -57,6 +61,7 @@ ModelImporter:
     4300014: PloughDetailed
     4300016: PloughCollider
     4300018: BoostPipes
+    4300020: Cannon
     6400000: Base
     6400002: Cabin
     6400004: Engine
@@ -67,6 +72,7 @@ ModelImporter:
     6400014: PloughCollider
     6400016: PloughDetailed
     6400018: Side_Armor
+    6400020: Cannon
     7400000: Default Take
     9500000: //RootNode
   materials:

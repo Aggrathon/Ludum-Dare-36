@@ -45,6 +45,7 @@ namespace aggrathon.ld36
 					car.boostDrain *= 0.75f;
 					break;
 				case Upgrade.Cannon:
+					car.upgradeObjects.Where(o => o.name.Equals("Cannon")).First().SetActive(true);
 					break;
 			}
 		}

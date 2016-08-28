@@ -374,7 +374,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Options
+  m_Text: Help
 --- !u!222 &107964122
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -3049,7 +3049,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Options and Help
+  m_Text: Help
 --- !u!222 &681421808
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -3699,9 +3699,11 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: "Game Type: Last Man Standing\n\nTips:\n - Stronger front armor\n - Speed
-    = Damage\n - Smoke color ~ Health\n - Keyboard: \n\tleft ctrl = boost\n\tspace
-    = brake\n\tescape = return to menu"
+  m_Text: "Game Type: \n\tLast Man Standing\n\nTips:\n\tMore Speed \t\t\t=\t\tMore
+    Damage\n\tDarker Smoke\t\t=\t\tLower Health\n\nKeyboard:\n\tWASD\t\t=\t\tMove\n\tctrl/shift\t\t=\t\tBoost
+    / Shoot\n\tspace  \t\t= \t\tBrake\n\tescape\t\t= \t\tReturn to menu\n\nController:\n\tSticks\t\t=\t\tMove\n\t(A)
+    \  \t\t=\t\tBoost / Shoot\n\t(B)   \t\t=\t\tBrake\n\t(start)\t\t=\t\tReturn to
+    menu"
 --- !u!222 &979911820
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -4121,6 +4123,8 @@ MonoBehaviour:
     m_Options:
     - m_Text: Supersized Bowl
       m_Image: {fileID: 0}
+    - m_Text: Sand Dunes
+      m_Image: {fileID: 0}
     - m_Text: Box Test
       m_Image: {fileID: 0}
   m_OnValueChanged:
@@ -4350,7 +4354,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 640, y: 455}
+  m_SizeDelta: {x: 640, y: 500}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1279473644
 MonoBehaviour:
@@ -6795,7 +6799,7 @@ GameObject:
   - 222: {fileID: 1953484984}
   - 114: {fileID: 1953484983}
   m_Layer: 5
-  m_Name: Options
+  m_Name: Help
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -6820,7 +6824,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 400, y: 300}
+  m_SizeDelta: {x: 400, y: 410}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1953484983
 MonoBehaviour:

@@ -60,7 +60,7 @@ namespace aggrathon.ld36
 			get { return boosting; }
 			set
 			{
-				if (value && boostMeter > 1f)
+				if (value && boostMeter >= 1f)
 					boosting = true;
 				else
 					boosting = false;
