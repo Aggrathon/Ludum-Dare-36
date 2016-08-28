@@ -58,7 +58,7 @@ namespace aggrathon.ld36
 					}
 				};
 			}
-			leftText.text = string.Format("Steam Engines Left: {0}", cars.Length);
+			leftText.text = string.Format("Players Left: {0}", cars.Length);
 		}
 
 		void Update()

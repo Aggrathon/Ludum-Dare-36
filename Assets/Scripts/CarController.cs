@@ -72,6 +72,8 @@ namespace aggrathon.ld36
 		public Action<CarController> onDestroyed;
 
 		private float currentTorque;
+		Rigidbody lastCollider;
+		float lastCollision;
 
 		public float Health
 		{
@@ -110,7 +112,7 @@ namespace aggrathon.ld36
 
 		void FixedUpdate()
 		{
-			if(rigidbody.velocity.sqrMagnitude < 0.5f && !wheelColliders[0].isGrounded && wheelColliders[1].isGrounded && wheelColliders[2].isGrounded && wheelColliders[3].isGrounded)
+			if(rigidbody.velocity.sqrMagnitude < 0.05f && !wheelColliders[0].isGrounded && wheelColliders[1].isGrounded && wheelColliders[2].isGrounded && wheelColliders[3].isGrounded && Vector3.Angle(transform.up, new Vector3(0,1,0)) > 80f)
 			{
 				Health = 0f;
 				return;
@@ -218,48 +220,47 @@ namespace aggrathon.ld36
 			Rigidbody othrig = collision.rigidbody;
 			if(othrig == null)
 			{
-				for (int i = 0; i < collision.contacts.Length; i++)
+				//for (int i = 0; i < collision.contacts.Length; i++)
+				//{
+				//	damage += Vector3.Project(rigidbody.velocity, collision.contacts[i].normal).magnitude;
+				//}
+				//damage = damage / (float)collision.contacts.Length * damageMultiplier * 0.5f;
+			}
+			else if(othrig != rigidbody)
+			{
+				if (Time.time - lastCollision < 0.5f && othrig == lastCollider)
 				{
-					damage += Vector3.Project(rigidbody.velocity, collision.contacts[i].normal).magnitude;
+					//Debug.Log("Rehit");
+					return;
 				}
-				damage = damage / (float)collision.contacts.Length * damageMultiplier * 0.5f;
-			}
-			else
-			{
-				for (int i = 0; i < collision.contacts.Length; i++)
+
+				if (Vector3.Angle(othrig.velocity, transform.position - othrig.position) > 80f)
+					return;
+				damage = Vector3.Project(othrig.velocity, transform.position - othrig.position).magnitude * damageMultiplier * (othrig.mass / rigidbody.mass);
+
+				if(Vector3.Angle(transform.forward, othrig.position - transform.position) < 45f)
 				{
-					damage += Vector3.Project(othrig.velocity, collision.contacts[i].normal).magnitude;
+					damage -= frontArmor;
 				}
-				damage = damage / (float)collision.contacts.Length * damageMultiplier * (othrig.mass / (rigidbody.mass + othrig.mass));
-				//float owndir = Vector3.Project(rigidbody.velocity, collision.contacts[0].normal).magnitude;
-				//float othdir = Vector3.Project(othrig.velocity, collision.contacts[0].normal).magnitude;
-				//damage = collision.impulse.magnitude * (othdir / (owndir + othdir)) * (othrig.mass / (rigidbody.mass + othrig.mass)) * damageMultiplier;
-			}
+				else if(Vector3.Angle(transform.right, othrig.position-transform.position) < 45f || Vector3.Angle(transform.right, othrig.position - transform.position) > 135f)
+				{
+					damage -= sideArmor;
+				}
+				else
+				{
+					damage -= baseArmor;
+				}
 
-			Vector3 loc = transform.InverseTransformPoint(collision.contacts[0].point);
-			if(loc.z > 0f && Vector3.Angle(transform.forward, collision.contacts[0].normal) > 135f)
-			{
-				damage -= frontArmor;
+				if (damage > 0f)
+				{
+					lastCollision = Time.time;
+					lastCollider = othrig;
+					//Debug.Log(damage);
+					Health -= damage;
+				}
+				return;
 			}
-			else if (loc.x > 0f && Vector3.Angle(transform.right, collision.contacts[0].normal) > 135f)
-			{
-				damage -= sideArmor;
-			}
-			else if (loc.x < 0f && Vector3.Angle(transform.right, collision.contacts[0].normal) < 45f)
-			{
-				damage -= sideArmor;
-			}
-			else
-			{
-				damage -= baseArmor;
-			}
-
-			if(damage > 0f)
-			{
-				//Debug.Log(damage);
-				Health -= damage;
-			}
-
+			return;
 		}
 	}
 }

@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System.Collections;
+using UnityEngine;
 using UnityEngine.UI;
 
 namespace aggrathon.ld36
@@ -13,6 +14,10 @@ namespace aggrathon.ld36
 		[SerializeField] float soundInterval = 0.1f;
 		[SerializeField] float soundPitchChange = 0.3f;
 
+		[Header("Text")]
+		[SerializeField] TextMesh nameText;
+		[SerializeField] TextMesh damageText;
+
 		CarController car;
 		float audioDelay;
 
@@ -23,6 +28,7 @@ namespace aggrathon.ld36
 			{
 				smoke.GetChild(i).gameObject.SetActive(false);
 			}
+			nameText.text = transform.parent.name;
 		}
 
 		public void SetColor(Color c)
@@ -40,6 +46,37 @@ namespace aggrathon.ld36
 					smoke.GetChild(old).gameObject.SetActive(false);
 				smoke.GetChild(ne >= smoke.childCount ? smoke.childCount - 1 : ne).gameObject.SetActive(true);
 			}
+			float diff = oldHealth - newHealth;
+			if(diff >1f)
+			{
+				damageText.text = string.Format("- {0:0}", diff);
+				StopAllCoroutines();
+				StartCoroutine(FadeDamage());
+			}
+		}
+
+		IEnumerator FadeDamage()
+		{
+			damageText.gameObject.SetActive(true);
+			float a = 0f;
+			while(a < 1f)
+			{
+				Color c = damageText.color;
+				c.a += Time.deltaTime * 2f;
+				a = c.a;
+				damageText.color = c;
+				yield return null;
+			}
+			yield return new WaitForSeconds(1f);
+			while (a > 0f)
+			{
+				Color c = damageText.color;
+				c.a -= Time.deltaTime * 2f;
+				a = c.a;
+				damageText.color = c;
+				yield return null;
+			}
+			damageText.gameObject.SetActive(false);
 		}
 
 		public void Destroy()
@@ -48,6 +85,7 @@ namespace aggrathon.ld36
 				foreach (Material m in mr.materials)
 					m.color = 0.4f * m.color + Color.black;
 			enabled = false;
+			nameText.gameObject.SetActive(false);
 		}
 
 		void Update()
