@@ -46,7 +46,7 @@ namespace aggrathon.ld36
 		{
 			foreach (MeshRenderer mr in GetComponentsInChildren<MeshRenderer>())
 				foreach (Material m in mr.materials)
-					m.color = 0.45f * m.color + Color.black;
+					m.color = 0.4f * m.color + Color.black;
 			enabled = false;
 		}
 
@@ -56,7 +56,7 @@ namespace aggrathon.ld36
 			float rpm = car.RPM;
 			if (rpm < minRpm)
 				rpm = minRpm;
-			if(audioDelay > soundInterval/(rpm * Mathf.Pow(0.95f, (int)(rpm*0.01f))))
+			if(audioDelay > soundInterval/(rpm * Mathf.Pow(0.93f, (int)(rpm*0.01f))))
 			{
 				engineNoise.pitch = Random.Range(1f-soundPitchChange, 1f+soundPitchChange);
 				engineNoise.PlayOneShot(engineNoise.clip);

@@ -17,7 +17,7 @@ namespace aggrathon.ld36
 
 		public void Randomize()
 		{
-			color = Random.ColorHSV();
+			color = Random.ColorHSV(0f,1f,0.4f,1f,0.4f,1f);
 			color.a = 1f;
 			img.color = color;
 		}

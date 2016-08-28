@@ -59,4 +59,4 @@ MonoBehaviour:
   accelerationAngle: 60
   stuckSpeed: 1
   stuckTimer: 2
-  targetPrediction: 0.02
+  targetPrediction: 0.015

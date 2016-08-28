@@ -65,7 +65,7 @@ namespace aggrathon.ld36
 				if (angle < accelerationAngle)
 				{
 					car.accelerator += Time.deltaTime * reactionSpeed;
-					if (angle < accelerationAngle * 0.5f)
+					if (angle < accelerationAngle * 0.3f)
 						car.Boosting = true;
 				}
 				else if(stuckTime != 0)
