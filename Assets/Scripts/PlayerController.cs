@@ -42,6 +42,7 @@ namespace aggrathon.ld36
 
 		void Update()
 		{
+			Debug.Log(car.RPM);
 			switch (controller)
 			{
 				case InputType.Keyboard:

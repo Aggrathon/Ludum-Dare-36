@@ -4,6 +4,7 @@ using UnityEngine;
 namespace aggrathon.ld36
 {
 	[DisallowMultipleComponent]
+	[RequireComponent(typeof(CarAudioVisual))]
 	[RequireComponent(typeof(Rigidbody))]
 	public class CarController : MonoBehaviour
 	{
@@ -41,11 +42,9 @@ namespace aggrathon.ld36
 		[SerializeField] private float baseArmor = 10f;
 		[SerializeField] private float frontArmor = 25f;
 		[SerializeField] private float sideArmor = 10f;
-		[SerializeField] private float damageMultiplier = 0.005f;
+		[SerializeField] private float damageMultiplier = 10f;
 
-		[Header("Visuals")]
-		[SerializeField] Transform smoke;
-
+		CarAudioVisual visuals;
 
 		[NonSerialized]
 		public float accelerator = 0f;
@@ -67,28 +66,20 @@ namespace aggrathon.ld36
 			get { return health; }
 			set
 			{
-				int old = (int)((1f - health * 0.01f) * (float)smoke.childCount);
+				visuals.SetHealth(health, value);
 				health = value;
 				if (value <= 0f)
 				{
 					onDestroyed(this);
 				}
-				int ne = (int)((1f - value * 0.01f) * (float)smoke.childCount);
-				if (ne != old)
-				{
-					if(old < smoke.childCount-1)
-						smoke.GetChild(old).gameObject.SetActive(false);
-					smoke.GetChild(ne >= smoke.childCount ? smoke.childCount -1 : ne).gameObject.SetActive(true);
-				}
 			}
 		}
 
+		public float RPM { get { return (wheelColliders[0].rpm + wheelColliders[1].rpm + wheelColliders[2].rpm + wheelColliders[3].rpm) * 0.25f; } }
+
 		void Awake()
 		{
-			for (int i = 1; i < smoke.childCount; i++)
-			{
-				smoke.GetChild(i).gameObject.SetActive(false);
-			}
+			visuals = GetComponent<CarAudioVisual>();
 			rigidbody = GetComponent<Rigidbody>();
 			onDestroyed += (car) =>
 			{
@@ -101,9 +92,7 @@ namespace aggrathon.ld36
 					wheelColliders[2].brakeTorque =
 					wheelColliders[3].brakeTorque = brakeTorque * 0.5f;
 				car.enabled = false;
-				foreach (MeshRenderer mr in GetComponentsInChildren<MeshRenderer>())
-					foreach (Material m in mr.materials)
-						m.color = 0.45f * m.color + Color.black;
+				visuals.BlackenRenderers();
 			};
 		}
 
@@ -202,15 +191,23 @@ namespace aggrathon.ld36
 
 		void OnCollisionEnter(Collision collision)
 		{
-			float damage;
+			float damage = 0f;
 			Rigidbody othrig = collision.rigidbody;
 			if(othrig == null)
 			{
-				damage = Vector3.Project(rigidbody.velocity, collision.contacts[0].normal).magnitude * damageMultiplier *0.5f;
+				for (int i = 0; i < collision.contacts.Length; i++)
+				{
+					damage += Vector3.Project(rigidbody.velocity, collision.contacts[i].normal).magnitude;
+				}
+				damage = damage / (float)collision.contacts.Length * damageMultiplier * 0.5f;
 			}
 			else
 			{
-				damage = Vector3.Project(othrig.velocity, collision.contacts[0].normal).magnitude * damageMultiplier * (othrig.mass / (rigidbody.mass + othrig.mass));
+				for (int i = 0; i < collision.contacts.Length; i++)
+				{
+					damage += Vector3.Project(othrig.velocity, collision.contacts[i].normal).magnitude;
+				}
+				damage = damage / (float)collision.contacts.Length * damageMultiplier * (othrig.mass / (rigidbody.mass + othrig.mass));
 				//float owndir = Vector3.Project(rigidbody.velocity, collision.contacts[0].normal).magnitude;
 				//float othdir = Vector3.Project(othrig.velocity, collision.contacts[0].normal).magnitude;
 				//damage = collision.impulse.magnitude * (othdir / (owndir + othdir)) * (othrig.mass / (rigidbody.mass + othrig.mass)) * damageMultiplier;
