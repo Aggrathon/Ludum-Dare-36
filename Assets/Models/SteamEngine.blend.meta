@@ -12,6 +12,10 @@ ModelImporter:
     100008: AdditionalPipes
     100010: Pipe
     100012: Steering_Wheel
+    100014: BoostPipes
+    100016: PloughCollider
+    100018: PloughDetailed
+    100020: Side_Armor
     400000: Base
     400002: Cabin
     400004: Engine
@@ -19,30 +23,50 @@ ModelImporter:
     400008: AdditionalPipes
     400010: Pipe
     400012: Steering_Wheel
+    400014: BoostPipes
+    400016: PloughCollider
+    400018: PloughDetailed
+    400020: Side_Armor
     2300000: Base
     2300002: Cabin
     2300004: Engine
     2300006: AdditionalPipes
     2300008: Pipe
     2300010: Steering_Wheel
+    2300012: BoostPipes
+    2300014: PloughCollider
+    2300016: PloughDetailed
+    2300018: Side_Armor
     3300000: Base
     3300002: Cabin
     3300004: Engine
     3300006: AdditionalPipes
     3300008: Pipe
     3300010: Steering_Wheel
+    3300012: BoostPipes
+    3300014: PloughCollider
+    3300016: PloughDetailed
+    3300018: Side_Armor
     4300000: Cabin
     4300002: Engine
     4300004: Base
     4300006: AdditionalPipes
     4300008: Pipe
     4300010: Steering_Wheel
+    4300012: Side_Armor
+    4300014: PloughDetailed
+    4300016: PloughCollider
+    4300018: BoostPipes
     6400000: Base
     6400002: Cabin
     6400004: Engine
     6400006: AdditionalPipes
     6400008: Pipe
     6400010: Steering_Wheel
+    6400012: BoostPipes
+    6400014: PloughCollider
+    6400016: PloughDetailed
+    6400018: Side_Armor
     7400000: Default Take
     9500000: //RootNode
   materials:
@@ -69,7 +93,7 @@ ModelImporter:
     isReadable: 0
   meshes:
     lODScreenPercentages: []
-    globalScale: 1
+    globalScale: 0.8
     meshCompression: 0
     addColliders: 1
     importBlendShapes: 0

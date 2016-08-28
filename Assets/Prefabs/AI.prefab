@@ -53,8 +53,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   rotationCost: 0.4
   trackingRadius: 120
-  closeRadius: 10
-  randomTarget: 10
+  closeRadius: 12
+  randomTarget: 12
   reactionSpeed: 4
   accelerationAngle: 60
   stuckSpeed: 1

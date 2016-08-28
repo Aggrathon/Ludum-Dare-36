@@ -21,6 +21,7 @@ namespace aggrathon.ld36
 		[SerializeField]
 		private GameObject[] wheelVisuals = new GameObject[4];
 
+		[Header("Driving")]
 		[SerializeField]
 		private float maximumSteerAngle = 20f;
 		[SerializeField]
@@ -34,11 +35,17 @@ namespace aggrathon.ld36
 		[SerializeField]
 		[Range(1, 2)]
 		private float boostMultiplier = 1.2f;
+
+		[Header("Health")]
 		[SerializeField] private float health = 100f;
 		[SerializeField] private float baseArmor = 10f;
 		[SerializeField] private float frontArmor = 25f;
 		[SerializeField] private float sideArmor = 10f;
 		[SerializeField] private float damageMultiplier = 0.005f;
+
+		[Header("Visuals")]
+		[SerializeField] Transform smoke;
+
 
 		[NonSerialized]
 		public float accelerator = 0f;
@@ -60,22 +67,43 @@ namespace aggrathon.ld36
 			get { return health; }
 			set
 			{
+				int old = (int)((1f - health * 0.01f) * (float)smoke.childCount);
 				health = value;
 				if (value <= 0f)
+				{
 					onDestroyed(this);
+				}
+				int ne = (int)((1f - value * 0.01f) * (float)smoke.childCount);
+				if (ne != old)
+				{
+					if(old < smoke.childCount-1)
+						smoke.GetChild(old).gameObject.SetActive(false);
+					smoke.GetChild(ne >= smoke.childCount ? smoke.childCount -1 : ne).gameObject.SetActive(true);
+				}
 			}
 		}
 
 		void Awake()
 		{
+			for (int i = 1; i < smoke.childCount; i++)
+			{
+				smoke.GetChild(i).gameObject.SetActive(false);
+			}
 			rigidbody = GetComponent<Rigidbody>();
 			onDestroyed += (car) =>
 			{
-				car.accelerator = 0f;
-				car.handbrake = false;
-				car.boosting = false;
-				car.FixedUpdate();
+				wheelColliders[0].motorTorque =
+					wheelColliders[1].motorTorque =
+					wheelColliders[2].motorTorque =
+					wheelColliders[3].motorTorque = 0f;
+				wheelColliders[0].brakeTorque =
+					wheelColliders[1].brakeTorque =
+					wheelColliders[2].brakeTorque =
+					wheelColliders[3].brakeTorque = brakeTorque * 0.5f;
 				car.enabled = false;
+				foreach (MeshRenderer mr in GetComponentsInChildren<MeshRenderer>())
+					foreach (Material m in mr.materials)
+						m.color = 0.45f * m.color + Color.black;
 			};
 		}
 
@@ -83,7 +111,7 @@ namespace aggrathon.ld36
 		{
 			if(rigidbody.velocity.sqrMagnitude < float.Epsilon && !wheelColliders[0].isGrounded && wheelColliders[1].isGrounded && wheelColliders[2].isGrounded && wheelColliders[3].isGrounded)
 			{
-				onDestroyed(this);
+				Health = 0f;
 				return;
 			}
 
@@ -178,13 +206,14 @@ namespace aggrathon.ld36
 			Rigidbody othrig = collision.rigidbody;
 			if(othrig == null)
 			{
-				damage = collision.impulse.magnitude * damageMultiplier * 0.2f;
+				damage = Vector3.Project(rigidbody.velocity, collision.contacts[0].normal).magnitude * damageMultiplier *0.5f;
 			}
 			else
 			{
-				float owndir = Vector3.Project(rigidbody.velocity, collision.contacts[0].normal).magnitude;
-				float othdir = Vector3.Project(othrig.velocity, collision.contacts[0].normal).magnitude;
-				damage = collision.impulse.magnitude * (othdir / (owndir + othdir)) * (othrig.mass / (rigidbody.mass + othrig.mass)) * damageMultiplier;
+				damage = Vector3.Project(othrig.velocity, collision.contacts[0].normal).magnitude * damageMultiplier * (othrig.mass / (rigidbody.mass + othrig.mass));
+				//float owndir = Vector3.Project(rigidbody.velocity, collision.contacts[0].normal).magnitude;
+				//float othdir = Vector3.Project(othrig.velocity, collision.contacts[0].normal).magnitude;
+				//damage = collision.impulse.magnitude * (othdir / (owndir + othdir)) * (othrig.mass / (rigidbody.mass + othrig.mass)) * damageMultiplier;
 			}
 
 			Vector3 loc = transform.InverseTransformPoint(collision.contacts[0].point);

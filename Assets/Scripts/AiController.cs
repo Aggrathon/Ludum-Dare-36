@@ -87,7 +87,7 @@ namespace aggrathon.ld36
 				//Try to unstuck
 				if (stuckTime > stuckTimer)
 				{
-					if (stuckTime > stuckTimer * 2f)
+					if (stuckTime > stuckTimer * 3f)
 					{
 						stuckTime = 0f;
 						return;
