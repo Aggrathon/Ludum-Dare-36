@@ -11,7 +11,7 @@ namespace aggrathon.ld36
 		{
 			PlayerData.Players = new PlayerData[]
 			{
-				new PlayerData("Player", PlayerData.Controller.player, Color.green, Upgrades.Upgrade.Front_Plow, Upgrades.Upgrade.Improved_Boosters),
+				new PlayerData("Player", PlayerData.Controller.player, Color.green, Upgrades.Upgrade.Front_Plow, Upgrades.Upgrade.Hyper_Booster),
 				new PlayerData("Opponent", PlayerData.Controller.dummy, Color.red, Upgrades.Upgrade.Better_Engine)
 			};
 			SceneManager.LoadScene(1);

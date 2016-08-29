@@ -12,7 +12,7 @@ namespace aggrathon.ld36
 			Better_Engine,
 			Front_Plow,
 			Side_Armor,
-			Improved_Boosters,
+			Hyper_Booster,
 			Cannon
 		}
 
@@ -39,7 +39,7 @@ namespace aggrathon.ld36
 					car.rigidbody.mass += 300f;
 					car.sideArmor += 5f;
 					break;
-				case Upgrade.Improved_Boosters:
+				case Upgrade.Hyper_Booster:
 					car.upgradeObjects.Where(o => o.name.Equals("BoostPipes")).First().SetActive(true);
 					car.boostMultiplier *= 1.2f;
 					car.boostDrain *= 0.75f;

@@ -10,8 +10,10 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/Tutorial.unity
   - enabled: 1
+    path: Assets/Scenes/Sand Dunes.unity
+  - enabled: 1
     path: Assets/Scenes/Supersized Bowl.unity
   - enabled: 1
-    path: Assets/Scenes/Sand Dunes.unity
+    path: Assets/Scenes/Dirt Derby.unity
   - enabled: 1
     path: Assets/Scenes/Box Test.unity

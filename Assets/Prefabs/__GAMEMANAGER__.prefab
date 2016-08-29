@@ -686,7 +686,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Last Steam Engine Standing
+  m_Text: Last Train Standing
 --- !u!114 &114000011488257394
 MonoBehaviour:
   m_ObjectHideFlags: 1
