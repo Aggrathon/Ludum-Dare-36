@@ -36,7 +36,7 @@ namespace aggrathon.ld36
 
 		void Update()
 		{
-			if (target == null)
+			if (target == null || !target.enabled)
 			{
 				FindTarget();
 			}

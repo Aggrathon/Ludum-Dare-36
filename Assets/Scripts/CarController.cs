@@ -54,6 +54,50 @@ namespace aggrathon.ld36
 		public float steering = 0f;
 		[NonSerialized]
 		public bool handbrake = false;
+		public bool Handbrake
+		{
+			get { return handbrake; }
+			set {
+				if(handbrake != value)
+				{
+					if(value)
+					{
+						WheelFrictionCurve wfc = wheelColliders[0].sidewaysFriction;
+						wfc.stiffness *= 0.5f;
+						wheelColliders[0].sidewaysFriction = wfc;
+						wheelColliders[1].sidewaysFriction = wfc;
+						wheelColliders[2].sidewaysFriction = wfc;
+						wheelColliders[3].sidewaysFriction = wfc;
+
+						wfc = wheelColliders[0].forwardFriction;
+						wfc.stiffness *= 0.5f;
+						wheelColliders[0].forwardFriction = wfc;
+						wheelColliders[1].forwardFriction = wfc;
+						wheelColliders[2].forwardFriction = wfc;
+						wheelColliders[3].forwardFriction = wfc;
+					}
+					else
+					{
+						WheelFrictionCurve wfc = wheelColliders[0].sidewaysFriction;
+						wfc.stiffness *= 2f;
+						wheelColliders[0].sidewaysFriction = wfc;
+						wheelColliders[1].sidewaysFriction = wfc;
+						wheelColliders[2].sidewaysFriction = wfc;
+						wheelColliders[3].sidewaysFriction = wfc;
+
+						wfc = wheelColliders[0].forwardFriction;
+						wfc.stiffness *= 2f;
+						wheelColliders[0].forwardFriction = wfc;
+						wheelColliders[1].forwardFriction = wfc;
+						wheelColliders[2].forwardFriction = wfc;
+						wheelColliders[3].forwardFriction = wfc;
+					}
+				}
+				handbrake = value;
+			}
+		}
+
+
 		private bool boosting = false;
 		[NonSerialized] public float boostMeter = 40f;
 		public bool Boosting {
@@ -61,7 +105,9 @@ namespace aggrathon.ld36
 			set
 			{
 				if (value && boostMeter >= 1f)
+				{
 					boosting = true;
+				}
 				else
 					boosting = false;
 			}
@@ -113,7 +159,7 @@ namespace aggrathon.ld36
 		{
 			oldVelocity = rigidbody.velocity;
 
-			if(rigidbody.velocity.sqrMagnitude < 0.05f && !wheelColliders[0].isGrounded && wheelColliders[1].isGrounded && wheelColliders[2].isGrounded && wheelColliders[3].isGrounded && Vector3.Angle(transform.up, new Vector3(0,1,0)) > 80f)
+			if(rigidbody.velocity.sqrMagnitude < float.Epsilon && /* !wheelColliders[0].isGrounded && wheelColliders[1].isGrounded && wheelColliders[2].isGrounded && wheelColliders[3].isGrounded && */ Vector3.Angle(transform.up, new Vector3(0,1,0)) > 80f)
 			{
 				Health = 0f;
 				return;

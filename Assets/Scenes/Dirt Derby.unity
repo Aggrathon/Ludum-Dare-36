@@ -13449,6 +13449,11 @@ Prefab:
       propertyPath: m_Name
       value: Hut (1)
       objectReference: {fileID: 0}
+    - target: {fileID: 23000010786404492, guid: e20794b0e053cf049a37b2457d9fdbe6,
+        type: 2}
+      propertyPath: m_MotionVectors
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: e20794b0e053cf049a37b2457d9fdbe6, type: 2}
   m_IsPrefabParent: 0
@@ -14958,7 +14963,7 @@ Terrain:
   m_DrawHeightmap: 1
   m_DrawTreesAndFoliage: 1
   m_ReflectionProbeUsage: 1
-  m_MaterialType: 0
+  m_MaterialType: 1
   m_LegacySpecular:
     serializedVersion: 2
     rgba: 4286545791

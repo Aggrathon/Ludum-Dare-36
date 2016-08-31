@@ -12,9 +12,9 @@ namespace aggrathon.ld36
 		[SerializeField] GameObject explosion;
 		[Header("Audio")]
 		[SerializeField] AudioSource engineNoise;
-		[SerializeField] float minRpm = 50f;
-		[SerializeField] float soundInterval = 0.1f;
-		[SerializeField] float soundPitchChange = 0.3f;
+		[SerializeField] float minEngineSpeed = 10f;
+		[SerializeField] float soundInterval = 4.5f;
+		[SerializeField] float soundPitchChange = 0.2f;
 
 		[Header("Text")]
 		[SerializeField] TextMesh nameText;
@@ -94,19 +94,33 @@ namespace aggrathon.ld36
 		void Update()
 		{
 			steeringwheel.localRotation = Quaternion.Euler(0, 0, car.steering * 90f);
-			float rpm = car.RPM;
-			if (rpm < minRpm)
-				rpm = minRpm;
-			if(audioDelay > soundInterval/(rpm * Mathf.Pow(0.95f, (int)(rpm*0.01f))))
+
+			float speed = Vector3.Project(car.rigidbody.velocity, car.transform.forward).magnitude;
+			if (speed < minEngineSpeed) speed = minEngineSpeed;
+			if (audioDelay > soundInterval / speed)
 			{
-				engineNoise.pitch = Random.Range(1f-soundPitchChange, 1f+soundPitchChange);
+				engineNoise.pitch = Random.Range(1f - soundPitchChange, 1f + soundPitchChange);
 				engineNoise.PlayOneShot(engineNoise.clip);
-				audioDelay = 0f;
+				audioDelay -= audioDelay;
 			}
 			else
 			{
 				audioDelay += Time.deltaTime;
 			}
+
+			//float rpm = car.RPM;
+			//if (rpm < minRpm)
+			//	rpm = minRpm;
+			//if(audioDelay > soundInterval/(rpm * Mathf.Pow(0.95f, (int)(rpm*0.01f))))
+			//{
+			//	engineNoise.pitch = Random.Range(1f-soundPitchChange, 1f+soundPitchChange);
+			//	engineNoise.PlayOneShot(engineNoise.clip);
+			//	audioDelay = 0f;
+			//}
+			//else
+			//{
+			//	audioDelay += Time.deltaTime;
+			//}
 
 		}
 

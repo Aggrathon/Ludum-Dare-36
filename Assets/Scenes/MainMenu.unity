@@ -3701,9 +3701,9 @@ MonoBehaviour:
     m_LineSpacing: 1
   m_Text: "Game Type: \n\tLast Man Standing\n\nTips:\n\tMore Speed \t\t\t=\t\tMore
     Damage\n\tDarker Smoke\t\t=\t\tLower Health\n\nKeyboard:\n\tWASD\t\t=\t\tMove\n\tctrl/shift\t\t=\t\tBoost
-    / Shoot\n\tspace  \t\t= \t\tBrake\n\tescape\t\t= \t\tReturn to menu\n\nController:\n\tSticks\t\t=\t\tMove\n\t(A)
-    \  \t\t=\t\tBoost / Shoot\n\t(B)   \t\t=\t\tBrake\n\t(start)\t\t=\t\tReturn to
-    menu"
+    / Shoot\n\tspace  \t\t= \t\tHandbrake\n\tescape\t\t= \t\tReturn to menu\n\nController:\n\tSticks\t\t=\t\tMove\n\t(A)
+    \  \t\t=\t\tBoost / Shoot\n\t(B)   \t\t=\t\tHandbrake\n\t(start)\t\t=\t\tReturn
+    to menu"
 --- !u!222 &979911820
 CanvasRenderer:
   m_ObjectHideFlags: 0

@@ -47,7 +47,7 @@ namespace aggrathon.ld36
 		void Update()
 		{
 			boostText.text = string.Format("Boost:  {0: 0} %", car.boostMeter);
-			speedText.text = string.Format("Speed: {0: 0}", target.velocity.magnitude * 3.6f);
+			speedText.text = string.Format("Speed: {0: 0} km/h", target.velocity.magnitude * 3.6f);
 			if(car.Health != healthCache)
 			{
 				healthCache = car.Health;
